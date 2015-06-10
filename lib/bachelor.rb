@@ -43,8 +43,21 @@ def get_contestant_name(data, occupation)
   participant
 end
 
+# return number of contestants hailing from a specific hometown
 def count_contestants_by_hometown(data, hometown)
-
+  # return number of contestants given town
+  # push into array. array.length
+  hometown_array = []
+  data.each do |season, participants_data|
+    participants_data.collect do |participant_hash|
+      participant_hash.each do |key, value|
+        if value == hometown
+          hometown_array << participant_hash["hometown"]
+        end
+      end   
+    end
+  end
+  hometown_array.length
 end
 
 # return occupation by hometown
@@ -67,18 +80,12 @@ end
 # average age should be an integer
 def get_average_age_for_season(data, season)
   age_array =[]
-  avg = nil
-  leng = data[season].size
   data[season].each do |participant_hash| # participant hash is an array
     age_array << participant_hash["age"].to_i
   end
   # age_array.inject { |sum, i| avg = ((sum + i) / data[season].size)  }
-  (age_array.reduce(:+) / leng).round
-  # avg.to_f
+  (age_array.reduce(:+).to_f / data[season].size).round
+  # the error was literally a rounding error
 end
-
 # (5..10).reduce(:+)  5+6+7+8+9+10 = 11+7+8+9+10 = 45
 
-
-
-# binding.pry
